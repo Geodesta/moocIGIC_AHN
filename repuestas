@@ -1,0 +1,35 @@
+import pandas as pd
+
+df_respuestas=pd.read_cvs('respuestas.csv')
+df_respuestas.head()
+
+tamaño = len(df_respuestas)
+i=1
+
+jsfile = ""
+jsfile = "var respuesta = { 'type':'FeatureCollection', \n"
+jsfile = jsfile + "'features': [ \n"
+for index, row in df_respuestas.iterrows():
+  inseguridad = row['Inseguridad']
+  iluminación = row['Iluminacion']
+  crimenes_reales = row['Crimenes_reales']
+  medidas_seguridad = row['Medias_seguridad']
+  seguridad_privada = row['Seguridad_privada']
+  noticias_negativas = row['Noticias_negativas']
+  variación_horaria = row['Variacion_hora']
+  experimentar_delito = row['Experimentar_delito']
+  políticas = row['Politicas']
+  realidad = row['Realidad']
+  longitud = row['Longitud']
+  latitud = row['Latitud']
+  if i<tamaño:
+    jsfile = jsfile +" {'type':'Feature', \n 'properties':{'nombre':'"+nombre+"', 'inseguridad':'"+inseguridad+"', 'iluminación':'"+iluminacion+"', 'crimenes_reales':'"+crimenes_reales+"', 'medidas_seguridad':'"+medias_seguridad+"', 'seguridad_privada':'"+seguridad_privada+"', 'noticias_negativas':'"+noticias_negativas+"', 'variación_horaria':'"+variacion_hora+"', 'experimentar_delito':'"+experimentar_delito+"', 'políticas':'"+politicas+"', 'realidad':'"+realidad+"'}, \n 'geometry': {'type':'Point', 'coordinates':["+str(longitud)+","+str(latitud)+"]}},\n"
+    i+=1
+  else:
+    jsfile = jsfile +" {'type':'Feature', \n 'properties':{'nombre':'"+nombre+"', 'inseguridad':'"+inseguridad+"', 'iluminación':'"+iluminacion+"', 'crimenes_reales':'"+crimenes_reales+"', 'medidas_seguridad':'"+medias_seguridad+"', 'seguridad_privada':'"+seguridad_privada+"', 'noticias_negativas':'"+noticias_negativas+"', 'variación_horaria':'"+variacion_hora+"', 'experimentar_delito':'"+experimentar_delito+"', 'políticas':'"+politicas+"', 'realidad':'"+realidad+"'}, \n 'geometry': {'type':'Point', 'coordinates':["+str(longitud)+","+str(latitud)+"]}},\n"]};
+
+print(jsfile)
+
+with open('respuestas.js', 'a') as archivo:
+  archivo.write(jsfile)
+archivo.close()
